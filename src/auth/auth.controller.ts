@@ -11,6 +11,7 @@ const em = orm.em;
 
 const REFRESH_COOKIE = "refreshToken";
 
+// configuracion del refreshToken
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
@@ -36,12 +37,14 @@ export async function login(req: Request, res: Response) {
       return res.status(401).json({ message: "Email o contraseña incorrecta" });
     }
 
+    // creacion del accessToken
     const accessToken = jwt.sign(
       { id: usuario.id, rol: usuario.rol },
       process.env.JWT_SECRET!,
       { expiresIn: process.env.JWT_EXPIRES_IN ?? "15m" } as jwt.SignOptions,
     );
 
+    // creacion del refreshToken
     const refreshToken = jwt.sign(
       { id: usuario.id },
       process.env.JWT_REFRESH_SECRET!,
