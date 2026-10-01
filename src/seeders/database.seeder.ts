@@ -5,6 +5,7 @@ import { UsuarioSeeder } from "./usuario.seeder.js";
 import { MaterialSeeder } from "./material.seeder.js";
 import { MuebleSeeder } from "./mueble.seeder.js";
 import { PedidoSeeder } from "./pedido.seeder.js";
+import { DescuentoSeeder } from "./descuento.seeder.js";
 
 export class DatabaseSeeder extends Seeder {
   async run(em: EntityManager): Promise<void> {
@@ -14,6 +15,10 @@ export class DatabaseSeeder extends Seeder {
     await new CategoriaSeeder().run(em);
     await new MaterialSeeder().run(em);
     await new MuebleSeeder().run(em);
+    await new DescuentoSeeder().run(em);
     await new PedidoSeeder().run(em);
+    await new PedidoSeeder().run(em);
+
   }
 }
+

@@ -53,10 +53,11 @@ export async function add(req: Request, res: Response) {
     const passwordHash = await bcrypt.hash(contrasenia, 10); // encripta la misma contra
 
     const usuario = em.create(Usuario, {
-      ...rest,
+      ...rest, //  copia todas las propiedades restantes del obj original dentro del nuevo objeto Usuario
       passwordHash,
       rol: "cliente",
       fondos: 0,
+      puntos: 0,
     }); // añade la contra hasheada al cliente
     await em.flush();
 

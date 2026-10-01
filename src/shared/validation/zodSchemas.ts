@@ -37,6 +37,7 @@ export const UsuarioSchema = z.object({
   contrasenia: PasswordSchema,
   rol: RolSchema,
   fondos: z.number().nonnegative(),
+  puntos: z.number().nonnegative().default(0),
 });
 
 export const RegistroSchema = z.object({
@@ -78,11 +79,9 @@ export const MuebleSchema = z.object({
 const datetime = z.date();
 
 export const DescuentoSchema = z.object({
-  codigo: z.string().min(2),
-  tipo: z.enum(["Cantidad", "Monto"]),
+  puntosRequeridos: z.number().int().positive(),
   porcentaje: z.number().min(0).max(100),
   descripcion: z.string().min(5).max(255).optional(),
-  fechaExpiracion: datetime.optional(), // ISO date string
 });
 
 export const FavoritoSchema = z.object({

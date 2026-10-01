@@ -5,6 +5,7 @@ import { Usuario } from "../usuario/usuario.entity.mysql.js";
 import { Mueble } from "../mueble/mueble.entity.mysql.js";
 import { Item } from "../item/item.entity.mysql.js";
 
+
 export class PedidoSeeder extends Seeder {
   async run(em: EntityManager): Promise<void> {
     const usuarios = await em.find(Usuario, {});

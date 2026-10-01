@@ -19,6 +19,7 @@ export class UsuarioSeeder extends Seeder {
         contrasenia: "admin1234a",
         rol: "admin",
         fondos: 100000,
+        puntos: 0, 
       },
       {
         nombre: "Goku",
@@ -31,6 +32,7 @@ export class UsuarioSeeder extends Seeder {
         contrasenia: "kamehameha123a",
         rol: "cliente",
         fondos: 1500,
+        puntos: 0,
       },
       {
         nombre: "Juan",
@@ -43,6 +45,7 @@ export class UsuarioSeeder extends Seeder {
         contrasenia: "usuario123",
         rol: "cliente",
         fondos: 5000,
+        puntos: 0,
       },
       {
         nombre: "Luffy",
@@ -54,6 +57,7 @@ export class UsuarioSeeder extends Seeder {
         email: "luffy@onepiece.jp",
         contrasenia: "gomuGomu123",
         rol: "cliente",
+        puntos: 0,
         fondos: 2100,
       },
       {
@@ -66,6 +70,7 @@ export class UsuarioSeeder extends Seeder {
         email: "vegeta@capsulecorp.jp",
         contrasenia: "conmiBulmaNO777",
         rol: "cliente",
+        puntos: 0,
         fondos: 1800,
       },
       {
@@ -78,6 +83,7 @@ export class UsuarioSeeder extends Seeder {
         email: "sobas@epidata.com",
         contrasenia: "sobchad41",
         rol: "admin",
+        puntos: 0,
         fondos: 20000,
       },
     ];

@@ -44,12 +44,15 @@ export class Pedido extends BaseEntity {
   @Property({ type: "decimal", precision: 10, scale: 2, default: 0 })
   total!: number;
 
-  @OneToMany(() => Descuento, (d) => d.pedido, {
-    cascade: [Cascade.PERSIST],
-    orphanRemoval: false, // no borra descuentos al eliminar pedido
-  })
-  descuentos = new Collection<Descuento>(this);
+  @ManyToOne(() => Descuento, { nullable: true }) // se cambio de oneToOne a manyToOne para permitir que varios pedidos puedan tener el mismo descuento
+    descuentoAplicado?: Rel<Descuento>;           // ahora el pedido apunta a un solo descuento, no al revés
+
+  @Property({ default: 0 })
+    puntosGanados: number = 0;
+
+  @Property({ default: 0 })
+    puntosUsados: number = 0;
 
   @ManyToOne(() => Pago, { nullable: true })
-  pago?: Rel<Pago>;
+    pago?: Rel<Pago>;
 }

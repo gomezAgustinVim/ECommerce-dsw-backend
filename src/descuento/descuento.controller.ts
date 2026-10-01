@@ -10,12 +10,12 @@ export const sanitizeDescuentoInput = validate(DescuentoSchema);
 
 export async function findAll(req: Request, res: Response) {
 	try {
-		const descuentos = await em.find(Descuento, {});
+		const mostrarTodos = req.query.inactivos === "true";
+		const filtro = mostrarTodos ? {} : { activo: true };
+		const descuentos = await em.find(Descuento, filtro);
 		res.status(200).json({ message: 'find all descuentos', data: descuentos });
 	} catch (error: any) {
-		res.status(500).json({
-			message: error.message,
-		});
+		res.status(500).json({ message: error.message });
 	}
 }
 
@@ -70,11 +70,11 @@ export async function update(req: Request, res: Response) {
 export async function remove(req: Request, res: Response) {
 	try {
 		const id = Number.parseInt(req.params.id);
-		const descuentoToRemove = em.getReference(Descuento, id);
-		await em.removeAndFlush(descuentoToRemove);
+		const descuento = await em.findOneOrFail(Descuento, { id });
+		descuento.activo = false;
+		await em.flush();
+		res.status(200).json({ message: 'Descuento dado de baja', data: descuento });
 	} catch (error: any) {
-		res.status(500).json({
-			message: error.message,
-		});
+		res.status(500).json({ message: error.message });
 	}
 }

@@ -50,4 +50,7 @@ export class Usuario extends BaseEntity {
     cascade: [Cascade.ALL],
   })
   favoritos = new Collection<Favorito>(this);
+
+  @Property({ default: 0 })
+    puntos: number = 0;
 }

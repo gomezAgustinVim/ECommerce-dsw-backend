@@ -35,6 +35,7 @@ async function crearUsuario(rol: "cliente" | "admin" = "cliente") {
     passwordHash: "hash-de-prueba-no-usado-en-login",
     rol,
     fondos: 0,
+    puntos: 0,
   });
   await em.persistAndFlush(usuario);
   return usuario;

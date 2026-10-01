@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { Descuento } from "../descuento/descuento.entity.mysql.js";
 import { Usuario } from "../usuario/usuario.entity.mysql.js";
 import { Item } from "../item/item.entity.mysql.js";
 import { orm } from "../shared/db/orm.js";
@@ -102,6 +103,8 @@ export async function crearPedido(
         estado: "pendiente",
         fechaHora: new Date(),
         total: 0,
+        puntosGanados: 0,
+        puntosUsados: 0,
       });
 
       let total = 0;
@@ -154,7 +157,22 @@ export async function crearPedido(
         }
       }
 
+      // Busca el mejor descuento al que el usuario accede con sus puntos actuales
+      const descuentos = await tem.find(Descuento, { activo: true });
+      const mejorDescuento = descuentos
+        .filter((d) => d.puntosRequeridos <= cliente.puntos)
+        .sort((a, b) => b.porcentaje - a.porcentaje)[0];
+
+      let puntosUsados = 0;
+      if (mejorDescuento) {
+        total = total - total * (mejorDescuento.porcentaje / 100);
+        puntosUsados = mejorDescuento.puntosRequeridos;
+        cliente.puntos -= puntosUsados;
+        pedido.descuentoAplicado = mejorDescuento;
+      }
+
       pedido.total = total;
+      pedido.puntosUsados = puntosUsados;
       await tem.persistAndFlush(pedido);
 
       return pedido;

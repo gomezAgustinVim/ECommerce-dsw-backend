@@ -3,6 +3,7 @@ import { MercadoPagoConfig, Preference } from "mercadopago";
 import { orm } from "../shared/db/orm.js";
 import { Pedido } from "../pedido/pedido.entity.mysql.js";
 import { Pago } from "./pago.entity.mysql.js";
+import { Usuario } from "../usuario/usuario.entity.mysql.js";
 
 const em = orm.em;
 
@@ -82,6 +83,13 @@ export async function webhook(req: Request, res: Response) {
 
       if (payment.status === "approved") {
         pedido.estado = "pagado";
+
+        const puntosGanados = Math.floor(pedido.total / 100); // 1 punto cada $100
+        pedido.puntosGanados = puntosGanados;
+
+        const cliente = await em.findOneOrFail(Usuario, { id: pedido.usuario.id });
+        cliente.puntos += puntosGanados;
+
         await em.flush();
       }
     }
